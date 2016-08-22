@@ -1,18 +1,35 @@
-From ubuntu:trusty
-MAINTAINER Elliott Ye
+FROM phusion/passenger-ruby23
 
-# Set noninteractive mode for apt-get
-ENV DEBIAN_FRONTEND noninteractive
+MAINTAINER Rodrigo de Avila <rodrigo@syonet.com>
 
-# Update
-RUN apt-get update
+# Update, upgrade, install, clean...
+RUN apt-get -qq update && \
+    apt-get -qq -y upgrade && \
+    apt-get -qq -y dist-upgrade && \
+    apt-get -qq -y install  && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get -qq -y install curl \
+                           jq \
+                           opendkim \
+                           opendkim-tools \
+                           postfix \
+                           sasl2-bin \
+                           software-properties-common \
+                           syslog-ng && \
+    apt-get -qq clean && \
+    apt-get -qq autoclean && \
+    apt-get -qq -y autoremove && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Start editing
-# Install package here for cache
-RUN apt-get -y install supervisor postfix sasl2-bin opendkim opendkim-tools
+# ForeGo
+RUN curl -fsSL -o forego-stable-linux-amd64.tgz https://bin.equinox.io/c/ekMN3bCZFUn/forego-stable-linux-amd64.tgz && \
+    tar xf forego-stable-linux-amd64.tgz && \
+    mv forego /usr/bin && \
+    rm forego-stable-linux-amd64.tgz
 
 # Add files
 ADD assets/install.sh /opt/install.sh
 
 # Run
-CMD /opt/install.sh;/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+CMD /opt/install.sh; \
+    forego start
