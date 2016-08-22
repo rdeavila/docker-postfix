@@ -1,33 +1,27 @@
 #!/bin/bash
 
-#judgement
-if [[ -a /etc/supervisor/conf.d/supervisord.conf ]]; then
-  exit 0
-fi
+mkdir -p /etc/postfix/certs
+mkdir -p /etc/opendkim/domainkeys
 
-#supervisor
-cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
-[supervisord]
-nodaemon=true
-
-[program:postfix]
-command=/opt/postfix.sh
-
-[program:rsyslog]
-command=/usr/sbin/rsyslogd -n -c3
+cat > Procfile <<EOF
+postfix: /opt/postfix.sh
 EOF
 
 ############
 #  postfix
 ############
-cat >> /opt/postfix.sh <<EOF
+cat > /opt/postfix.sh <<EOF
 #!/bin/bash
+touch /var/log/mail.log
+service syslog-ng start
 service postfix start
-tail -f /var/log/mail.log
+tail -f /var/log/mail*
 EOF
 chmod +x /opt/postfix.sh
 postconf -e myhostname=$maildomain
 postconf -F '*/*/chroot = n'
+postconf -e inet_protocols=ipv4
+postconf -e compatibility_level=2 # http://www.postfix.org/COMPATIBILITY_README.html
 
 ############
 # SASL SUPPORT FOR CLIENTS
@@ -75,10 +69,9 @@ fi
 if [[ -z "$(find /etc/opendkim/domainkeys -iname *.private)" ]]; then
   exit 0
 fi
-cat >> /etc/supervisor/conf.d/supervisord.conf <<EOF
-
-[program:opendkim]
-command=/usr/sbin/opendkim -f
+cat > Procfile <<EOF
+opendkim: /usr/sbin/opendkim -f
+postfix: /opt/postfix.sh
 EOF
 # /etc/postfix/main.cf
 postconf -e milter_protocol=2
