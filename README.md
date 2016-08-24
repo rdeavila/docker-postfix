@@ -1,8 +1,9 @@
-docker-postfix
-==============
+# Ruby and Postfix on Ubuntu 16.04 LTS [![](https://images.microbadger.com/badges/image/rdeavila/ruby-postfix.svg)](http://microbadger.com/images/rdeavila/ruby-postfix "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/rdeavila/ruby-postfix.svg)](http://microbadger.com/images/rdeavila/ruby-postfix "Get your own version badge on microbadger.com")
 
 Run postfix with smtp authentication (sasldb) in a docker container.
 TLS and OpenDKIM support are optional.
+
+Ruby environment, version 2.3.1, included.
 
 Work based on [catatnight/docker-postfix](https://github.com/catatnight/docker-postfix)
 image.
