@@ -27,6 +27,9 @@ RUN curl -fsSL -o forego-stable-linux-amd64.tgz https://bin.equinox.io/c/ekMN3bC
     mv forego /usr/bin && \
     rm forego-stable-linux-amd64.tgz
 
+# Upgrade RubyGems
+RUN gem update --system
+
 # Add files
 ADD assets/install.sh /opt/install.sh
 
