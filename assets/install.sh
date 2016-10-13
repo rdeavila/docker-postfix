@@ -22,6 +22,7 @@ postconf -e myhostname=$maildomain
 postconf -F '*/*/chroot = n'
 postconf -e inet_protocols=ipv4
 postconf -e compatibility_level=2 # http://www.postfix.org/COMPATIBILITY_README.html
+postconf -e smtp_tls_security_level=may # http://serverfault.com/a/700022
 
 ############
 # SASL SUPPORT FOR CLIENTS
