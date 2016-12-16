@@ -3,9 +3,9 @@
 Run postfix with smtp authentication (sasldb) in a docker container.
 TLS and OpenDKIM support are optional.
 
-Ruby environment, version 2.3.1, included.
+Ruby environment, version 2.3.3, included.
 
-Work based on [catatnight/docker-postfix](https://github.com/catatnight/docker-postfix)
+Work based on [catatnight/dock3er-postfix](https://github.com/catatnight/docker-postfix)
 image.
 
 ## Requirement

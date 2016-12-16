@@ -1,10 +1,10 @@
-FROM phusion/passenger-ruby23
+FROM mailtop/passenger-ruby23
 
 MAINTAINER Rodrigo de Avila <rodrigo@syonet.com>
 
 # Update, upgrade, install, clean...
 RUN apt-get -qq update && \
-    apt-get -qq -y upgrade && \
+    apt-get -qq upgrade -y -o Dpkg::Options::="--force-confold" && \
     apt-get -qq -y dist-upgrade && \
     apt-get -qq -y install  && \
     DEBIAN_FRONTEND=noninteractive \
