@@ -1,4 +1,4 @@
-FROM mailtop/passenger-ruby23
+FROM mailtop/passenger-ruby24
 
 MAINTAINER Rodrigo de Avila <rodrigo@syonet.com>
 
