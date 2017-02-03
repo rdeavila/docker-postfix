@@ -3,7 +3,7 @@
 Run postfix with smtp authentication (sasldb) in a docker container.
 TLS and OpenDKIM support are optional.
 
-Ruby environment, version 2.3.3, included.
+Ruby environment, version 2.4.0, included.
 
 Work based on [catatnight/dock3er-postfix](https://github.com/catatnight/docker-postfix)
 image.
@@ -19,30 +19,33 @@ image.
 	```
 
 ## Usage
+
 1. Create postfix container with smtp authentication
 
-	```bash
-	$ sudo docker run -p 25:25 \
-			-e maildomain=mail.example.com -e smtp_user=user:pwd \
-			--name postfix -d rdeavila/ruby-postfix
-	# Set multiple user credentials: -e smtp_user=user1:pwd1,user2:pwd2,...,userN:pwdN
-	```
+```bash
+$ sudo docker run -p 25:25 \
+  -e maildomain=mail.example.com -e smtp_user=user:pwd \
+  --name postfix -d rdeavila/ruby-postfix
+# Set multiple user credentials: -e smtp_user=user1:pwd1,user2:pwd2,...,userN:pwdN
+```
+
 2. Enable OpenDKIM: save your domain key ```.private``` in ```/path/to/domainkeys```
 
-	```bash
-	$ sudo docker run -p 25:25 \
-			-e maildomain=mail.example.com -e smtp_user=user:pwd \
-			-v /path/to/domainkeys:/etc/opendkim/domainkeys \
-			--name postfix -d rdeavila/ruby-postfix
-	```
+```bash
+$ sudo docker run -p 25:25 \
+  -e maildomain=mail.example.com -e smtp_user=user:pwd \
+  -v /path/to/domainkeys:/etc/opendkim/domainkeys \
+  --name postfix -d rdeavila/ruby-postfix
+```
+
 3. Enable TLS(587): save your SSL certificates ```.key``` and ```.crt``` to  ```/path/to/certs```
 
-	```bash
-	$ sudo docker run -p 587:587 \
-			-e maildomain=mail.example.com -e smtp_user=user:pwd \
-			-v /path/to/certs:/etc/postfix/certs \
-			--name postfix -d rdeavila/ruby-postfix
-	```
+```bash
+$ sudo docker run -p 587:587 \
+  -e maildomain=mail.example.com -e smtp_user=user:pwd \
+  -v /path/to/certs:/etc/postfix/certs \
+  --name postfix -d rdeavila/ruby-postfix
+```
 
 ## Note
 + Login credential should be set to (`username@mail.example.com`, `password`) in Smtp Client
